@@ -14,7 +14,7 @@ dw.arr_merge = function(arr1, arr2) {
 //去掉arr里重复的值
 dw.arr_unique = function(arr) {
   var index = 0,len = arr.length;
-  while (index <= arr.length-1) {
+  while (index <= len-1) {
     len = arr.length;
     for (var i = index+1; i < len; i++) {
       if (arr[index] === arr[i]) {
