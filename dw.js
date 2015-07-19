@@ -25,3 +25,21 @@ dw.arr_unique = function(arr) {
     index=index+1;
   }
 }
+
+//把obj2添加到obj1里. 
+dw.obj_add = function(obj1,obj2) {
+  for (var i in obj2) {
+    if (!obj1[i]) {
+      obj1[i] = obj2[i];
+    }
+  }
+}
+
+//把obj2合并到obj1里
+dw.obj_merge = function(obj1,obj2) {
+  for (var i in obj2) {
+    if (obj1[i] !==obj2[i]) {
+      obj1[i] = obj2[i];
+    }
+  }
+}
