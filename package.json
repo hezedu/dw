@@ -1,0 +1,26 @@
+{
+  "name": "dw",
+  "version": "1.0.0",
+  "main": "dw",
+  "keywords": [
+    "lib",
+    "common",
+    "util",
+    "nodejs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hezedu/dw.git"
+  },
+  "author": {
+    "name": "hezedu"
+  },
+  "dependencies": {
+  },
+  "licenses": "MIT",
+  "email": "hezedu@hotmail.com",
+  "description": "dw 专用工具库 !",
+  "bugs": {
+    "url": "https://github.com/hezedu/dw/issues"
+  }
+}
