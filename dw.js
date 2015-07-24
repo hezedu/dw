@@ -2,10 +2,25 @@
 var dw = (typeof module === 'object' && typeof module.exports === 'object') ? module.exports : {};
 
 //来自 sas
-dw.type = Object.prototype.toString;
-dw.ARR = '[object Array]';
-dw.FN = '[object Function]';
-dw.OBJ = '[object Object]';
+//设置属性，不可被更改，删除。 可见，不会报错。
+dw.not_modfiy = function(t, k, v) {
+  Object.defineProperty(t, k, {
+    value: v,
+    writable: false,
+    configurable: false,
+    enumerable: true
+  });
+}
+
+dw._define = function(k, v) {
+  this.not_modfiy(this, k, v);
+}
+
+dw._define('type', Object.prototype.toString);
+dw._define('ARR', '[object Array]');
+dw._define('FN', '[object Function]');
+dw._define('OBJ', '[object Object]');
+
 
 //复制一个变量, 深递归
 dw.copy = function(t) {
@@ -15,17 +30,17 @@ dw.copy = function(t) {
 }
 
 dw._copy = function(t, i, c) {
-    switch (dw.type.call(t[i])) {
-      case dw.OBJ: //obj
+    switch (this.type.call(t[i])) {
+      case this.OBJ: //obj
         c[i] = {};
         for (var j in t[i]) {
-          dw._copy(t[i], j, c[i]);
+          this._copy(t[i], j, c[i]);
         }
         break;
-      case dw.ARR: //arr
+      case this.ARR: //arr
         c[i] = [], len = t[i].length;
         for (var j = 0; j < len; j++) {
-          dw._copy(t[i], j, c[i]);
+          this._copy(t[i], j, c[i]);
         }
         break;
       default:
@@ -82,16 +97,16 @@ dw.obj_merge = function(obj1, obj2) {
 dw.const_init = function(t) { //递归 调用 _const_set
   var ty = Object.prototype.toString.call(t);
   switch (ty) {
-    case '[object Object]':
+    case this.OBJ:
       for (var i in t) {
-        dw._const_set(t, i, t[i]);
-        dw.const_init(t[i]);
+        this._const_set(t, i, t[i]);
+        this.const_init(t[i]);
       }
       break;
-    case '[object Array]':
+    case this.ARR:
       for (var i = 0, len = t.length; i < len; i++) {
-        dw._const_set(t, i, t[i]);
-        dw.const_init(t[i]);
+        this._const_set(t, i, t[i]);
+        this.const_init(t[i]);
       }
       break;
     default:
@@ -111,3 +126,28 @@ dw._const_set = function(t, k, v) {
     }
   });
 }
+
+
+/*
+递归 + 没常量 + copy
+dw.const_ite = function(t, i, o) {
+  var ty = Object.prototype.toString.call(o);
+  switch (ty) {
+    case '[object Object]':
+      dw.setConst(t, i, {});
+      for (var j in o) {
+        dw.const_ite(t[i], j, o[j]);
+      }
+      break;
+    case '[object Array]':
+      dw.setConst(t, i, []);
+      for (var j = 0, len = o.length; j < len; j++) {
+        dw.const_ite(t[i], j, o[j]);
+      }
+      break;
+    default:
+      dw.setConst(t, i, o);
+  }
+}
+
+*/
