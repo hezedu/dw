@@ -94,18 +94,18 @@ dw.obj_merge = function(obj1, obj2) {
 }
 
 //把对象或数组全部属性变成不可更改 更改会抛错
-dw.const_init = function(t) { //递归 调用 _const_set
+dw.const_init = function(t) { //递归 调用 const_set
   var ty = Object.prototype.toString.call(t);
   switch (ty) {
     case this.OBJ:
       for (var i in t) {
-        this._const_set(t, i, t[i]);
+        this.const_set(t, i, t[i]);
         this.const_init(t[i]);
       }
       break;
     case this.ARR:
       for (var i = 0, len = t.length; i < len; i++) {
-        this._const_set(t, i, t[i]);
+        this.const_set(t, i, t[i]);
         this.const_init(t[i]);
       }
       break;
@@ -114,7 +114,7 @@ dw.const_init = function(t) { //递归 调用 _const_set
 }
 
 //设置成属性不可更改-删除  更改会抛错
-dw._const_set = function(t, k, v) {
+dw.const_set = function(t, k, v) {
   Object.defineProperty(t, k, {
     configurable: false,
     enumerable: true,
