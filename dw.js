@@ -69,10 +69,26 @@ dw.arr_unique = function(arr) {
       if (arr[index] === arr[i]) {
         arr.splice(i, 1);
         index = index - 1;
+        break;
       }
     }
     index = index + 1;
   }
+}
+
+//来自https://jex.im/programming/fast-javascript-array-unique.html
+dw.slowUnique= function(ary) {
+  var ret = [],i,j,l = ary.length;
+  outer:
+  for(i=0; i<l; i++) {
+    j=ret.length;
+    p=ary[i];
+    while(j--) {
+      if (ret[j]===p) continue outer;
+    }
+    ret.push(p);
+  }
+  return ret;
 }
 
 //把obj2添加到obj1里. 
