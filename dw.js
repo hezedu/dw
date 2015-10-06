@@ -26,7 +26,8 @@ dw._define('OBJ', '[object Object]');
 dw.copy = function(t) {
   var c = [];
   dw._copy([t], 0, c);
-  return c[0];
+  c = c[0];
+  return c;
 }
 
 dw._copy = function(t, i, c) {
