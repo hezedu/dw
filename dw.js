@@ -1,8 +1,9 @@
 /*dw 专用工具包*/
 var dw = (typeof module === 'object' && typeof module.exports === 'object') ? module.exports : {};
 
-//来自 sas
+
 //设置属性，不可被更改，删除。 可见，不会报错。
+
 dw.not_modfiy = function(t, k, v) {
   Object.defineProperty(t, k, {
     value: v,
@@ -16,6 +17,7 @@ dw._define = function(k, v) {
   this.not_modfiy(this, k, v);
 }
 
+//来自 sas
 dw._define('type', Object.prototype.toString);
 dw._define('ARR', '[object Array]');
 dw._define('FN', '[object Function]');
@@ -50,7 +52,28 @@ dw._copy = function(t, i, c) {
   }
   //来自 sas end;
 
-//把arr2合并到arr1里,不重复. 
+//js 变量递归, fn 参数 t , i
+dw.obj_ite = function objIte(t, fn) {
+
+    var ty = this.type.call(t);
+    switch (ty) {
+      case this.OBJ:
+        for (var i in t) {
+          fn(t, i);
+          //console.log(i)
+          this.obj_ite(t[i]);
+        }
+        break;
+      case this.ARR:
+        for (var i = 0, len = t.length; i < len; i++) {
+          fn(t, i);
+          this.obj_ite(t[i]);
+        }
+        break;
+      default:
+    }
+  }
+  //把arr2合并到arr1里,不重复. 
 dw.arr_merge = function(arr1, arr2) {
   var len2 = arr2.length;
   for (var i = 0; i < len2; i++) {
@@ -78,17 +101,18 @@ dw.arr_unique = function(arr) {
 }
 
 //来自https://jex.im/programming/fast-javascript-array-unique.html
-dw.slowUnique= function(ary) {
-  var ret = [],i,j,l = ary.length;
+dw.slowUnique = function(ary) {
+  var ret = [],
+    i, j, l = ary.length;
   outer:
-  for(i=0; i<l; i++) {
-    j=ret.length;
-    p=ary[i];
-    while(j--) {
-      if (ret[j]===p) continue outer;
+    for (i = 0; i < l; i++) {
+      j = ret.length;
+      p = ary[i];
+      while (j--) {
+        if (ret[j] === p) continue outer;
+      }
+      ret.push(p);
     }
-    ret.push(p);
-  }
   return ret;
 }
 
@@ -109,6 +133,8 @@ dw.obj_merge = function(obj1, obj2) {
     }
   }
 }
+
+
 
 //把对象或数组全部属性变成不可更改 更改会抛错
 dw.const_init = function(t) { //递归 调用 const_set
@@ -143,6 +169,8 @@ dw.const_set = function(t, k, v) {
     }
   });
 }
+
+
 
 
 /*
