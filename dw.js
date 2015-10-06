@@ -53,7 +53,7 @@ dw._copy = function(t, i, c) {
   //来自 sas end;
 
 //js 变量递归, fn 参数 t , i
-dw.obj_ite = function objIte(t, fn) {
+dw.obj_ite = function obj_ite(t, fn) {
 
     var ty = this.type.call(t);
     switch (ty) {
@@ -61,13 +61,13 @@ dw.obj_ite = function objIte(t, fn) {
         for (var i in t) {
           fn(t, i);
           //console.log(i)
-          this.obj_ite(t[i]);
+          this.obj_ite(t[i], fn);
         }
         break;
       case this.ARR:
         for (var i = 0, len = t.length; i < len; i++) {
           fn(t, i);
-          this.obj_ite(t[i]);
+          this.obj_ite(t[i], fn);
         }
         break;
       default:
