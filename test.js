@@ -12,6 +12,7 @@ var bind_data = function(t, i) {
     var tmp;
     Object.defineProperty(t, i, {
       get :function(){
+        console.log('get '+tmp);
         return tmp; 
       },
       set: function(val) {
@@ -35,8 +36,10 @@ dw.obj_ite(t1,bind_data);
 
 bind_data(t1,'ka');
 t1.ka = '3333'
-console.log(t1.ka);
+console.log('delete:')
+//delete(t1.ka);
 
+t1.ka = undefined;
 
 
 //process.stdin.resume();
