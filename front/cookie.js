@@ -21,7 +21,8 @@ dw.cookie = {
       var lastIndex = dc.indexOf(';', firstIndex);
       lastIndex = lastIndex === -1 ? dc.length : lastIndex;
       firstIndex = firstIndex + k.length;
-      return dc.substr(firstIndex, lastIndex - firstIndex);
+      dc = dc.substr(firstIndex, lastIndex - firstIndex);
+      return decodeURIComponent(dc);
     } else {
       return null;
     }
