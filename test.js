@@ -1,45 +1,69 @@
-var dw = require('./dw');
-var log = console.log;
+var Benchmark = require('benchmark');
 
-var bValue;
+var suite = new Benchmark.Suite;
+var dw = require('./dw_pre');
 
-function test(){
-  console.log('test')
+
+var test = {
+  'start': 'astartbc',
+  arr: ['ggg', 'hehe'],
+  obj: {
+    a1: 'a1',
+    b1: 'b1'
+  },
+  arr_obj: [{
+    ao1: 'ao1',
+    ao2: 'ao1'
+  }],
+  obj_arr: {
+    oa1: ['oa2', 'oa3']
+  },
+  end: 'end'
 }
-
-var bind_data = function(t, i) {
-  //console.log(i)
-    var tmp;
-    Object.defineProperty(t, i, {
-      get :function(){
-        console.log('get '+tmp);
-        return tmp; 
-      },
-      set: function(val) {
-        test();
-        tmp = val+1;
-      }
-    });
+dw.ite(test, function(v,i,isArray){
+  if(isArray){
+    console.log(i);
+  }else{
+    console.log('"' + i + '"');
   }
+  console.log(this);
+})
+/*dw.iteNew(test,{
+  arr: function(v,i){
+    console.log(i);
+  },
+  obj: function(v,i){
+    console.log(i);
+  }
+})
 
-var t1 ={
-  ka:'a',
-  kb:'b'
+dw._ite2(test,function(v,i){
+    console.log(i);
+  });*/
+
+
+suite
+.add('iteNew#2', function() {
+  dw.iteNew(test, noop);
+})
+// add tests
+.add('_ite2#1', function() {
+  dw._ite2(test, noop2);
+})
+
+// add listeners
+.on('cycle', function(event) {
+  console.log(String(event.target));
+})
+.on('complete', function() {
+  console.log('Fastest is ' + this.filter('fastest').map('name'));
+})
+// run async
+//.run({ 'async': true });
+
+function noop(){}
+function noop2(v,i,isArray){
+  if(isArray){
+
+  }
 }
-var t2 ={
-  a:'a1',
-  b:'b',
-  c:'c'
-}
-
-dw.obj_ite(t1,bind_data);
-
-bind_data(t1,'ka');
-t1.ka = '3333'
-console.log('delete:')
-//delete(t1.ka);
-
-t1.ka = undefined;
-
-
-//process.stdin.resume();
