@@ -18,6 +18,8 @@ var test = {
   obj_arr: {
     oa1: ['oa2', 'oa3']
   },
+  nu:null,
+  reg:/kkk/,
   end: 'end'
 }
 /*dw.ite(test, function(v,i,isArray){
@@ -56,7 +58,8 @@ for(var i in t2){
 
 
 var MAX = 1000000;
-
+var t1 = dw.copy(test);
+console.log(t1)
 
 console.log('开始(一):');
 var startTime = Date.now();

@@ -5,7 +5,7 @@ dw.ARR = '[object Array]';
 dw.FN = '[object Function]';
 dw.OBJ = '[object Object]';*/
 
-
+var 
 function noop() {};
 dw.noop = noop;
 
@@ -49,10 +49,13 @@ function _copy(t, i, c) {
         _copy(v, j, c[i]);
       }
     } else {
-      c[i] = {};
-      for (var j in v) {
-        _copy(v, j, c[i]);
+      if(Object.toString.call(v) === '[object Object]'){
+        c[i] = {};
+        for (var j in v) {
+          _copy(v, j, c[i]);
+        }
       }
+
     }
   } else {
     c[i] = v;
