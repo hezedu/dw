@@ -29,4 +29,34 @@ function ite(t, fn) {
 
 dw.ite = ite;
 
-module.exports = dw;
+
+
+//复制tasks, 深递归
+var sas = {}
+sas.copy = function(t) {
+  var c = [];
+  _copy([t], 0, c);
+  return c[0];
+}
+
+
+function _copy(t, i, c) {
+  var v = t[i];
+  if (typeof v === 'object') {
+    if (Array.isArray(v)) {
+      c[i] = [];
+      for (var j = 0, len = v.length; j < len; j++) {
+        _copy(v, j, c[i]);
+      }
+    } else {
+      c[i] = {};
+      for (var j in v) {
+        _copy(v, j, c[i]);
+      }
+    }
+  } else {
+    c[i] = v;
+  }
+}
+
+module.exports = sas;
